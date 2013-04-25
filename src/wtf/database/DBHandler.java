@@ -1,5 +1,6 @@
 package wtf.database;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,8 +72,8 @@ public class DBHandler extends SQLiteOpenHelper {
 		return data;
 	}
 
-	public List<Data> getAllData() {
-		List<Data> datalist = new ArrayList<Data>();
+	public ArrayList<Data> getAllData() {
+		ArrayList<Data> datalist = new ArrayList<Data>();
 		String selectQuery = "SELECT * FROM " + TABLE_SN;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor c = db.rawQuery(selectQuery, null);

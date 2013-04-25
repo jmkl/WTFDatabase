@@ -42,7 +42,7 @@ public DBAdapter(Context c,List<Data> data){
 		if(v==null){
 			v = LayoutInflater.from(context).inflate(R.layout.data, null);
 		}
-		ImageView iv = (ImageView) v.findViewById(R.id.imageView1);
+		//XXX ImageView iv = (ImageView) v.findViewById(R.id.imageView1);
 		TextView tv1 =(TextView)v.findViewById(R.id.textView1);
 		TextView tv2 =(TextView)v.findViewById(R.id.textView2);
 		Data d = data.get(pos);

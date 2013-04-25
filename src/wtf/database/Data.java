@@ -1,23 +1,36 @@
 package wtf.database;
 
+import android.graphics.Bitmap;
+
 public class Data {
 	int _id;
 	String nama;
 	String serialnumber;
+	Bitmap bmp;
 
 	public Data() {
 	}
 
-	public Data(int id, String nama, String sn) {
+	public Bitmap getBmp() {
+		return bmp;
+	}
+
+	public void setBmp(Bitmap bmp) {
+		this.bmp = bmp;
+	}
+
+	public Data(int id, String nama, String sn,Bitmap object) {
 		this._id = id;
 		this.nama = nama;
 		this.serialnumber = sn;
+		this.bmp=(Bitmap) object;
 	}
 
-	public Data(String nama, String sn) {
+	public Data(String nama, String sn,Bitmap bmp) {
 
 		this.nama = nama;
 		this.serialnumber = sn;
+		this.bmp=(Bitmap) bmp;
 	}
 
 	public int get_id() {

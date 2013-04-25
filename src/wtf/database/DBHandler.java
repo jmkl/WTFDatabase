@@ -2,6 +2,10 @@ package wtf.database;
 
 import java.util.ArrayList;
 
+import org.apache.http.util.EntityUtils;
+
+import wtf.database.utils.BMPUtils;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -23,6 +27,7 @@ public class DBHandler extends SQLiteOpenHelper {
 	private static final String KEY_ID = "id";
 	private static final String KEY_NAMA = "name";
 	private static final String KEY_SN = "serial_number";
+	private static final String KEY_BMP = "bmp";
 
 	public DBHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -33,7 +38,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		Log.e(TAG, "OnCreate DB");
 		String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_SN + "("
 				+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAMA + " TEXT,"
-				+ KEY_SN + " TEXT" + ")";
+				+ KEY_SN + " TEXT," + KEY_BMP+" BLOB"+")";
 		db.execSQL(CREATE_CONTACTS_TABLE);
 
 	}
@@ -51,6 +56,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		ContentValues cv = new ContentValues();
 		cv.put(KEY_NAMA, data.getNama());
 		cv.put(KEY_SN, data.getSerialnumber());
+		cv.put(KEY_BMP, BMPUtils.serializeObject(data.getBmp()));
 
 		db.insert(TABLE_SN, null, cv);
 		db.close();
@@ -66,7 +72,7 @@ public class DBHandler extends SQLiteOpenHelper {
 			cursor.moveToFirst();
 
 		Data data = new Data(Integer.parseInt(cursor.getString(0)),
-				cursor.getString(1), cursor.getString(2));
+				cursor.getString(1), cursor.getString(2),BMPUtils.deserializeObject(cursor.getBlob(3)));
 		return data;
 	}
 
@@ -81,6 +87,7 @@ public class DBHandler extends SQLiteOpenHelper {
 				data.set_id(Integer.parseInt(c.getString(0)));
 				data.setNama(c.getString(1));
 				data.setSerialnumber(c.getString(2));
+				data.setBmp(BMPUtils.deserializeObject(c.getBlob(3)));
 				datalist.add(data);
 			} while (c.moveToNext());
 		}

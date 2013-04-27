@@ -36,7 +36,6 @@ public class BMPUtils {
 	/* Deserialize Object */
 	public static Bitmap deserializeObject(byte[] b) {
 		Bitmap object = BitmapFactory.decodeByteArray(b, 0, b.length);
-
 		return object;
 	}
 

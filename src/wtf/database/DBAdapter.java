@@ -2,7 +2,10 @@ package wtf.database;
 
 import java.util.List;
 
+import wtf.database.utils.BMPUtils;
+
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class DBAdapter extends BaseAdapter{
+	
 	private List<Data> data;
 	private Context context;
 public DBAdapter(Context c,List<Data> data){
@@ -48,7 +52,7 @@ public DBAdapter(Context c,List<Data> data){
 		Data d = data.get(pos);
 		tv1.setText(d.getNama());
 		tv2.setText(d.getSerialnumber());
-		iv.setImageBitmap(d.getBmp());
+		iv.setImageBitmap(BMPUtils.createOutline(d.getBmp()));
 		
 		return v;
 	}

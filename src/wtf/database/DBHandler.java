@@ -73,6 +73,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 		Data data = new Data(Integer.parseInt(cursor.getString(0)),
 				cursor.getString(1), cursor.getString(2),BMPUtils.deserializeObject(cursor.getBlob(3)));
+		cursor.close();
 		return data;
 	}
 
@@ -91,13 +92,14 @@ public class DBHandler extends SQLiteOpenHelper {
 				datalist.add(data);
 			} while (c.moveToNext());
 		}
+		c.close();
 		return datalist;
 
 	}
 
 	public int getDataCount() {
 		String countQuery = "SELECT  * FROM " + TABLE_SN;
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(countQuery, null);
 		cursor.close();
 
@@ -113,8 +115,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		values.put(KEY_SN, data.getSerialnumber());
 
 		// updating row
-		return db.update(TABLE_SN, values, KEY_ID + " =?",
-				new String[] { String.valueOf(data.get_id()) });
+		return db.update(TABLE_SN, values, KEY_ID + " =?",new String[] { String.valueOf(data.get_id()) });
 	}
 
 	public void deleteData(Data data) {

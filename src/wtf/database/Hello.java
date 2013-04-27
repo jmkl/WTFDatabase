@@ -2,10 +2,12 @@ package wtf.database;
 
 import java.util.ArrayList;
 
+import wtf.database.utils.LogUtils.CekEksekTime;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -25,6 +27,8 @@ public class Hello extends Activity implements OnClickListener,OnItemClickListen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.hello);
+		CekEksekTime cek = new CekEksekTime();
+		cek.setStart();
 		tes = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 		db = new DBHandler(this);
 		add = (Button)findViewById(R.id.button1);
@@ -34,6 +38,7 @@ public class Hello extends Activity implements OnClickListener,OnItemClickListen
 		lv.setAdapter(adapter);
 		add.setOnClickListener(this);
 		lv.setOnItemClickListener(this);
+		cek.setEnd();
 		
 		
 		
@@ -42,7 +47,10 @@ public class Hello extends Activity implements OnClickListener,OnItemClickListen
 	@Override
 	public void onItemClick(AdapterView<?> paramAdapterView, View paramView,
 			int pos, long paramLong) {
-		db.deleteData(datas.get(pos));
+		int i =1;
+		i++;
+		//db.deleteData(datas.get(pos));
+		db.updateData(new Data(datas.get(pos).getNama(), ""+i, tes));
 		datas.clear();
 		datas.addAll(db.getAllData());
 		adapter.notifyDataSetChanged();
@@ -53,7 +61,7 @@ public class Hello extends Activity implements OnClickListener,OnItemClickListen
 	@Override
 	public void onClick(View v) {
 		if(v.getId()==R.id.button1){
-			db.addData(new Data("satu", "dua",tes));
+			db.addData(new Data(SystemClock.currentThreadTimeMillis()+" =", "dua",tes));
 			datas.clear();
 			datas.addAll(db.getAllData());
 			adapter.notifyDataSetChanged();

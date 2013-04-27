@@ -38,7 +38,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		Log.e(TAG, "OnCreate DB");
 		String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_SN + "("
 				+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAMA + " TEXT,"
-				+ KEY_SN + " TEXT," + KEY_BMP+" BLOB"+")";
+				+ KEY_SN + " TEXT," + KEY_BMP + " BLOB" + ")";
 		db.execSQL(CREATE_CONTACTS_TABLE);
 
 	}
@@ -72,7 +72,8 @@ public class DBHandler extends SQLiteOpenHelper {
 			cursor.moveToFirst();
 
 		Data data = new Data(Integer.parseInt(cursor.getString(0)),
-				cursor.getString(1), cursor.getString(2),BMPUtils.deserializeObject(cursor.getBlob(3)));
+				cursor.getString(1), cursor.getString(2),
+				BMPUtils.deserializeObject(cursor.getBlob(3)));
 		cursor.close();
 		return data;
 	}
@@ -102,20 +103,19 @@ public class DBHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(countQuery, null);
 		cursor.close();
-
+		db.close();
 		// return count
 		return cursor.getCount();
 	}
 
-	public int updateData(Data data) {
+	public void updateData(long rowId, String nama, String sn) {
 		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues args = new ContentValues();
+		args.put(KEY_NAMA, nama);
+		args.put(KEY_SN, sn);
+		db.update(TABLE_SN, args, KEY_ID+"=" + rowId, null);
+		db.close();
 
-		ContentValues values = new ContentValues();
-		values.put(KEY_NAMA, data.getNama());
-		values.put(KEY_SN, data.getSerialnumber());
-
-		// updating row
-		return db.update(TABLE_SN, values, KEY_ID + " =?",new String[] { String.valueOf(data.get_id()) });
 	}
 
 	public void deleteData(Data data) {

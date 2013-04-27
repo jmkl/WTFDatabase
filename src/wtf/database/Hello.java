@@ -50,7 +50,7 @@ public class Hello extends Activity implements OnClickListener,OnItemClickListen
 		int i =1;
 		i++;
 		//db.deleteData(datas.get(pos));
-		db.updateData(new Data(datas.get(pos).getNama(), ""+i, tes));
+		db.updateData(datas.get(pos).get_id(),""+i,"newdata"+i);
 		datas.clear();
 		datas.addAll(db.getAllData());
 		adapter.notifyDataSetChanged();
